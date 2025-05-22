@@ -3,49 +3,36 @@
 // inclusion des fichiers .h
 #include "luminosity_sensor.h"
 #include "temperature_humidity.h"
+#include "message.h"
 
 void setup() {
   Serial.begin(115200);
   while (!Serial);
 
+  printInitializationStartMessage();
+
   // initialisation des modules
-  Serial.println("--- Initilisation des capteurs ---");
   setupLuminositySensor();
   setupTemperatureHumiditySensor();
-  Serial.println("--- Capteurs initialisés. Début des lectures. ---");
+
+  printInitializationEndMessage();
 }
 
 void loop() {
-  // lecture du capteur d'humidité
-  if (isDark()) {
-    Serial.println("Il fait sombre.");
-  } else {
-    Serial.println("Il fait éclairé.");
-  }
+  // affichage de l'état de la luminosité
+  printLuminosityStatus(isDark());
 
   // lecture du capteur de température et d'humidité
   float temperature = readTemperature();
   float humidity = readHumidity();
 
   // affichage de la température
-  if (!isnan(temperature)) {
-    Serial.print("Température : ");
-    Serial.print(temperature);
-    Serial.println(" °C");
-  } else {
-    // message d'erreur déjà affiché par la fonction readTemperature()
-  }
+  printTemperature(temperature);
 
   // affichage de l'humidité
-  if (!isnan(humidity)) {
-    Serial.print("Humidité : ");
-    Serial.print(humidity);
-    Serial.println(" %");
-  } else {
-    // message d'erreur déjà affiché par la fonction readHumidity()
-  }
+  printHumidity(humidity);
 
-  Serial.println("-----------------------------");
+  printSeparator();
 
   delay(4000);
 }

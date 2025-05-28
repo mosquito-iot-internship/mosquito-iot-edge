@@ -35,6 +35,22 @@ void printHumidity(float humidity) {
   }
 }
 
+void printUvLedStatus(bool isOn) {
+  if (isOn) {
+    Serial.println("LED UV : allumee");
+  } else {
+    Serial.println("LED UV : eteinte");
+  }
+}
+
+void printFanStatus(bool isOn) {
+  if (isOn) {
+    Serial.println("Vantilateur : allume");
+  } else {
+    Serial.print("Ventilateur : eteint");
+  }
+}
+
 void printSeparator() {
   Serial.println("--------------------------------------");
 }

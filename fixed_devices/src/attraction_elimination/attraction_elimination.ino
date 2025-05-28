@@ -1,9 +1,11 @@
 // fichier principal
 
 // inclusion des fichiers .h
+#include "message.h"
 #include "luminosity_sensor.h"
 #include "temperature_humidity_sensor.h"
-#include "message.h"
+#include "uv_led_actuator.h"
+#include "fan_actuator.h"
 
 void setup() {
   Serial.begin(115200);
@@ -14,13 +16,19 @@ void setup() {
   // initialisation des modules
   setupLuminositySensor();
   setupTemperatureHumiditySensor();
+  setupUvLed();
+  setupFan();
 
   printInitializationEndMessage();
 }
 
 void loop() {
-  // affichage de l'état de la luminosité
+  // lire l'état de la luminosité
+  bool currentStatusIsDark = isDark();
   printLuminosityStatus(isDark());
+
+  //activation de la LED UV en fonction de l'obscurite
+  activateUvLedIfDark(currentStatusIsDark);
 
   // lecture du capteur de température et d'humidité
   float temperature = readTemperature();
@@ -29,6 +37,8 @@ void loop() {
   // affichage des capteurs
   printTemperature(temperature);
   printHumidity(humidity);
+  printUvLedStatus(isUvLedOn);
+  printFanStatus(isFanOnState());
 
   printSeparator();
 

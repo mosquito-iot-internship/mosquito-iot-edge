@@ -12,6 +12,9 @@ void printLuminosityStatus(bool isDark);
 void printTemperature(float temperature);
 void printHumidity(float humidity);
 
+void printUvLedStatus(bool isOn);
+void printFanStatus(bool isOn);
+
 void printSeparator();
 
 #endif
